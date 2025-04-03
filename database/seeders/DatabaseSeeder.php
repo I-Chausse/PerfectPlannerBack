@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Avatar;
 use App\Models\User;
 use App\Models\Project;
+use App\Models\ProjectUser;
 use App\Models\UserUser;
 use App\Models\Task;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -23,5 +24,6 @@ class DatabaseSeeder extends Seeder
         Project::factory(10)->create();
         UserUser::factory(5)->create();
         Task::factory(100)->create();
+        ProjectUser::factory(15)->create();
     }
 }
