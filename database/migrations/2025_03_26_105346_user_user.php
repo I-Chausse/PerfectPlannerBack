@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_user', function (Blueprint $table) {
+        Schema::create('user_users', function (Blueprint $table) {
             $table->timestamps();
             $table->foreignId('admin_user_id')->constrained('users');
             $table->foreignId('assignee_user_id')->constrained('users');

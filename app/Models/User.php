@@ -4,8 +4,11 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -21,6 +24,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'user_name',
+        'first_name',
+        'avatar_id',
+        'role_id'
     ];
 
     /**
@@ -31,6 +38,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -44,5 +53,30 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+    public function avatar(): HasOne {
+        return $this->hasOne(Avatar::class);
+    }
+
+    public function role(): HasOne {
+        return $this->hasOne(Role::class);
+    }
+
+    public function permissions(): HasManyThrough {
+        return $this->hasManyThrough(Permission::class, Role::class, PermissionRole::class);
+    }
+
+    public function projects(): HasManyThrough {
+        return $this->hasManyThrough(Project::class, ProjectUser::class);
+    }
+
+    public function tasks(): HasMany {
+        return $this->hasMany(Task::class);
+    }
+
+    public function assignees(): HasManyThrough {
+        return $this->hasManyThrough(User::class, UserUser::class, 'admin_user_id', 'id', 'id', 'assignee_user_id');
     }
 }
