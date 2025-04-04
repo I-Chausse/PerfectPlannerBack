@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -61,8 +62,8 @@ class User extends Authenticatable
         return $this->hasOne(Avatar::class);
     }
 
-    public function role(): HasOne {
-        return $this->hasOne(Role::class);
+    public function role(): belongsTo {
+        return $this->belongsTo(Role::class);
     }
 
     public function permissions(): HasManyThrough {
