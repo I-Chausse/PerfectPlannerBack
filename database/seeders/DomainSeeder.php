@@ -15,8 +15,8 @@ class DomainSeeder extends Seeder
     public function run(): void
     {
         DB::table('domains')->insert([
-            ['id' => 1,'code' => 'LABELS', 'label' => 'labels', 'created_at' => now(), 'updated_at' => now()],
-            ['id' => 2, 'code' => 'PRIO', 'label' => 'priorités', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 1,'code' => 'status', 'label' => 'statuts', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 2, 'code' => 'flags', 'label' => 'priorités', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

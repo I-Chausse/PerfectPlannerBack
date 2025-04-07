@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -62,5 +64,11 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         //
+    }
+
+    public function myTasks() {
+        $user = Auth::user();
+        $tasks = $user->tasks()->with(['status', 'flag', 'user'])->get();
+        return TaskResource::collection($tasks);
     }
 }
