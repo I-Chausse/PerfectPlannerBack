@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Resources\ProjectPreviewRessource;
+use App\Http\Resources\TaskResource;
+use App\Http\Resources\UserPreviewRessource;
 use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -62,5 +66,34 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         //
+    }
+
+    public function myProjects() {
+        $projects = Auth::user()->projects;
+        return ProjectPreviewRessource::collection($projects);
+    }
+
+    public function getTaskByProject($projectId) {
+        $project = Project::find($projectId);
+        $tasks = $project->tasks()->with(['status', 'flag', 'user'])->get();
+        return TaskResource::collection($tasks);
+    }
+
+    public function getUsersByProject($projectId) {
+        $project = Project::find($projectId);
+        $users = $project->users()->get();
+        return response()->json($users);
+    }
+
+    public function getAdminsByProject($projectId) {
+        $project = Project::find($projectId);
+        $users = $project->admins()->get();
+        return response()->json($users);
+    }
+
+    public function getAssignablesByProject($projectId) {
+        $project = Project::find($projectId);
+        $users = $project->assignables()->get();
+        return UserPreviewRessource::collection($users);
     }
 }

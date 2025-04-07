@@ -70,10 +70,10 @@ class User extends Authenticatable
         return $this->hasManyThrough(Permission::class, Role::class, PermissionRole::class);
     }
 
-    public function projects(): HasManyThrough {
-        return $this->hasManyThrough(Project::class, ProjectUser::class);
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'project_users');
     }
-
     public function tasks(): HasMany {
         return $this->hasMany(Task::class);
     }

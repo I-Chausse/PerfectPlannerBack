@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDomainItemRequest;
 use App\Http\Requests\UpdateDomainItemRequest;
+use App\Http\Resources\DomainItemRessource;
 use App\Models\Domain;
 use App\Models\DomainItem;
 
@@ -73,6 +74,6 @@ class DomainItemController extends Controller
         } else {
             return response()->json(['message' => 'Domain not found'], 404);
         }
-        return response()->json($domainItems);
+        return DomainItemRessource::collection($domainItems);
     }
 }
