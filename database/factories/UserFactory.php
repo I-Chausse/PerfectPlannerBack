@@ -33,8 +33,6 @@ class UserFactory extends Factory
             'first_name' => $this->faker->firstName,
             'created_at' => now(),
             'updated_at' => now(),
-            'avatar_id' => fake()->numberBetween(1, 10),
-            'role_id' => fake()->numberBetween(1,3),
         ];
     }
 

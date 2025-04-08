@@ -31,7 +31,9 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+        $task = Task::create($validatedData);
+        return response()->json($task, 201);
     }
 
     /**
@@ -42,20 +44,11 @@ class TaskController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Task $task)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+        $validatedData = $request->validated();
+        $task->update($validatedData);
+        return response()->json($task, 200);
     }
 
     /**

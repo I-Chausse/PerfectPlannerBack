@@ -3,6 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use App\Models\DomainItem;
+use App\Rules\DomainItemInSpecificDomain;
 
 class StoreTaskRequest extends FormRequest
 {
@@ -11,7 +15,13 @@ class StoreTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        $user = Auth::user();
+        $allowed = $user->role()
+        ->whereHas('permissions', function ($query) {
+            $query->where('code', 'CREATETASK');
+        })
+        ->exists();
+        return $allowed;
     }
 
     /**
@@ -22,7 +32,21 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'remaining_time' => 'nullable|numeric',
+            'project_id' => 'required|exists:projects,id',
+            'domain_item_status_id' => [
+                'required',
+                'numeric',
+                new DomainItemInSpecificDomain('status'),
+            ],
+            'domain_item_flag_id' => [
+                'required',
+                'numeric',
+                new DomainItemInSpecificDomain('flags'),
+            ],
+            'user_id' => 'nullable|numeric|exists:users,id',
         ];
     }
 }

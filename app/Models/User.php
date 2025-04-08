@@ -62,12 +62,8 @@ class User extends Authenticatable
         return $this->hasOne(Avatar::class);
     }
 
-    public function role(): belongsTo {
+    public function role(): BelongsTo {
         return $this->belongsTo(Role::class);
-    }
-
-    public function permissions(): HasManyThrough {
-        return $this->hasManyThrough(Permission::class, Role::class, PermissionRole::class);
     }
 
     public function projects()
@@ -79,6 +75,6 @@ class User extends Authenticatable
     }
 
     public function assignees(): HasManyThrough {
-        return $this->hasManyThrough(User::class, UserUser::class, 'admin_user_id', 'id', 'id', 'assignee_user_id');
+        return $this->hasManyThrough(User::class, 'user_users', 'admin_user_id', 'id', 'id', 'assignee_user_id');
     }
 }
