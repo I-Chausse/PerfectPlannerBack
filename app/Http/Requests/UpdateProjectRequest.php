@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateProjectRequest extends FormRequest
 {
@@ -11,7 +12,13 @@ class UpdateProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        $user = Auth::user();
+        $allowed = $user->role()
+        ->whereHas('permissions', function ($query) {
+            $query->where('code', 'EDITPROJECT');
+        })
+        ->exists();
+        return $allowed;
     }
 
     /**
@@ -22,7 +29,7 @@ class UpdateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'project_name' => 'required|string|max:255',
         ];
     }
 }

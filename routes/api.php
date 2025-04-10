@@ -41,3 +41,4 @@ Route::get(uri: '/projects/{project_id}/assignables', action: [ProjectController
 
 ## ressources
 Route::apiResource('tasks', TaskController::class)->middleware(['auth:sanctum']);
+Route::apiResource('projects', ProjectController::class)->middleware(['auth:sanctum']);

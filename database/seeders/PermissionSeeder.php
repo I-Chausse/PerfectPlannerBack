@@ -24,6 +24,8 @@ class PermissionSeeder extends Seeder
             ## Projets
             ['id' => 41,'code' => 'ASSIGNUSERTOPROJECT', 'label' => 'Assigner un utilisateur à un projet', 'created_at' => now(), 'updated_at' => now()],
             ['id' => 42,'code' => 'ASSIGNMANAGERTOPROJECT', 'label' => 'Assigner un manager à un projet', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 43,'code' => 'CREATEPROJECT', 'label' => 'Créer un projet', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 44,'code' => 'EDITPROJECT', 'label' => 'Editer un projet', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

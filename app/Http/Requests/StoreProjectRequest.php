@@ -15,7 +15,7 @@ class StoreProjectRequest extends FormRequest
         $user = Auth::user();
         $allowed = $user->role()
         ->whereHas('permissions', function ($query) {
-            $query->where('code', 'CREATETASK');
+            $query->where('code', 'CREATEPROJECT');
         })
         ->exists();
         return $allowed;
@@ -29,7 +29,7 @@ class StoreProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'project_name' => 'required|string|max:255',
         ];
     }
 }

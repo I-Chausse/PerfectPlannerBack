@@ -8,6 +8,7 @@ use App\Http\Resources\ProjectPreviewRessource;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\UserPreviewRessource;
 use App\Models\Project;
+use Error;
 use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
@@ -25,7 +26,14 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        try {
+            $validatedData = $request->validated();
+            $project = Project::create($validatedData);
+            return response()->json($project, 201);
+        }
+        catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 
     /**
@@ -41,7 +49,14 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        try {
+            $validatedData = $request->validated();
+            $project->update($validatedData);
+            return response()->json($project, 200);
+        }
+        catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 
     /**
@@ -53,31 +68,56 @@ class ProjectController extends Controller
     }
 
     public function myProjects() {
-        $projects = Auth::user()->projects;
-        return ProjectPreviewRessource::collection($projects);
+        try {
+            $projects = Auth::user()->projects;
+            return ProjectPreviewRessource::collection($projects);
+        }
+        catch (Error $e) {
+            return response()->json($e, 500);
+        }  
     }
 
     public function getTaskByProject($projectId) {
-        $project = Project::find($projectId);
-        $tasks = $project->tasks()->with(['status', 'flag', 'user'])->get();
-        return TaskResource::collection($tasks);
+        try {
+            $project = Project::find($projectId);
+            $tasks = $project->tasks()->with(['status', 'flag', 'user'])->get();
+            return TaskResource::collection($tasks);
+        }
+        catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 
     public function getUsersByProject($projectId) {
-        $project = Project::find($projectId);
-        $users = $project->users()->get();
-        return response()->json($users);
+        try {
+            $project = Project::find($projectId);
+            $users = $project->users()->get();
+            return response()->json($users);
+        }
+        catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 
     public function getAdminsByProject($projectId) {
-        $project = Project::find($projectId);
-        $users = $project->admins()->get();
-        return response()->json($users);
+        try {
+            $project = Project::find($projectId);
+            $users = $project->admins()->get();
+            return response()->json($users);
+        }
+        catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 
     public function getAssignablesByProject($projectId) {
-        $project = Project::find($projectId);
-        $users = $project->assignables()->get();
-        return UserPreviewRessource::collection($users);
+        try {
+            $project = Project::find($projectId);
+            $users = $project->assignables()->get();
+            return UserPreviewRessource::collection($users);
+        }
+        catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 }

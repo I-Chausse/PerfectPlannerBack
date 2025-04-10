@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use Error;
 use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
@@ -23,9 +24,14 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        $validatedData = $request->validated();
-        $task = Task::create($validatedData);
-        return response()->json($task, 201);
+        try {
+            $validatedData = $request->validated();
+            $task = Task::create($validatedData);
+            return response()->json($task, 201);
+        }
+        catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 
     /**
@@ -38,9 +44,14 @@ class TaskController extends Controller
 
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        $validatedData = $request->validated();
-        $task->update($validatedData);
-        return response()->json($task, 200);
+        try {
+            $validatedData = $request->validated();
+            $task->update($validatedData);
+            return response()->json($task, 200);
+        }
+        catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 
     /**
@@ -52,8 +63,13 @@ class TaskController extends Controller
     }
 
     public function myTasks() {
-        $user = Auth::user();
-        $tasks = $user->tasks()->with(['status', 'flag', 'user'])->get();
-        return TaskResource::collection($tasks);
+        try {
+            $user = Auth::user();
+            $tasks = $user->tasks()->with(['status', 'flag', 'user'])->get();
+            return TaskResource::collection($tasks);
+        }
+        catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 }

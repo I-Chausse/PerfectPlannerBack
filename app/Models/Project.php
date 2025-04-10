@@ -13,6 +13,10 @@ class Project extends Model
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'project_name',
+    ];
+
     public function users(): BelongsToMany {
     return $this->belongsToMany(User::class, 'project_users')
         ->join('roles', 'users.role_id', '=', 'roles.id')
