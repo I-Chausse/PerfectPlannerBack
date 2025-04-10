@@ -31,6 +31,7 @@ class StoreTaskRequest extends FormRequest
      */
     public function rules(): array
     {
+        $editorId = Auth::user()->id();
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -46,7 +47,11 @@ class StoreTaskRequest extends FormRequest
                 'numeric',
                 new DomainItemInSpecificDomain('flags'),
             ],
-            'user_id' => 'nullable|numeric|exists:users,id',
+            'user_id' => [
+                'nullable',
+                'numeric',
+                'exists:users,id',
+            ],
         ];
     }
 }

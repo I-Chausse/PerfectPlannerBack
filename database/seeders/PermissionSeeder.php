@@ -14,10 +14,16 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         DB::table('permissions')->insert([
-            ['id' => 11,'code' => 'ASSIGNUSERTOTASK', 'label' => 'Assigner un utilisateur à une tache', 'created_at' => now(), 'updated_at' => now()],
+            ## Users
+            ['id' => 11,'code' => 'ASSIGNUSERTOMANAGER', 'label' => 'Assigner un utilisateur à un manager', 'created_at' => now(), 'updated_at' => now()],
             ['id' => 21,'code' => 'CHANGEROLE', 'label' => 'Modifier le role', 'created_at' => now(), 'updated_at' => now()],
+            ## Tâches
             ['id' => 31,'code' => 'EDITTASK', 'label' => 'Editer une tâche', 'created_at' => now(), 'updated_at' => now()],
             ['id' => 32, 'code' => 'CREATETASK', 'label' => 'Créer une tâche', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 33,'code' => 'ASSIGNUSERTOTASK', 'label' => 'Assigner un utilisateur à une tache', 'created_at' => now(), 'updated_at' => now()],
+            ## Projets
+            ['id' => 41,'code' => 'ASSIGNUSERTOPROJECT', 'label' => 'Assigner un utilisateur à un projet', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 42,'code' => 'ASSIGNMANAGERTOPROJECT', 'label' => 'Assigner un manager à un projet', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

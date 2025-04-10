@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreProjectRequest extends FormRequest
 {
@@ -11,7 +12,13 @@ class StoreProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        $user = Auth::user();
+        $allowed = $user->role()
+        ->whereHas('permissions', function ($query) {
+            $query->where('code', 'CREATETASK');
+        })
+        ->exists();
+        return $allowed;
     }
 
     /**
