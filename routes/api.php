@@ -9,36 +9,36 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Middleware\CheckUserAssignedToProject;
 
-Route::get(uri: '/user', action: function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
 
 Route::post(uri: '/login', action: [AuthController::class, 'login']);
 
-## my routes
-Route::get(uri: '/my-tasks', action: [TaskController::class, 'myTasks'])
-    ->middleware('auth:sanctum');
 
-Route::get(uri: '/my-projects', action: [ProjectController::class, 'myProjects'])
-->middleware('auth:sanctum');
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get(uri: '/user', action: function (Request $request) {
+        return $request->user();
+    });
 
-Route::get(uri: '/get-items/{domain}', action: [DomainItemController::class, 'getByDomain'])
-    ->middleware('auth:sanctum');
+    ## my routes
+    Route::get(uri: '/my-tasks', action: [TaskController::class, 'myTasks']);
+    Route::get(uri: '/my-projects', action: [ProjectController::class, 'myProjects']);
+    Route::get(uri: '/get-items/{domain}', action: [DomainItemController::class, 'getByDomain']);
+
+    ## routes for projects
+    Route::get(uri: '/projects/{project_id}/tasks', action: [ProjectController::class, 'getTaskByProject'])
+    ->middleware([CheckUserAssignedToProject::class]);
+
+    Route::get(uri: '/projects/{project_id}/users', action: [ProjectController::class, 'getUsersByProject'])
+    ->middleware([CheckUserAssignedToProject::class]);
+    Route::get(uri: '/projects/{project_id}/admins', action: [ProjectController::class, 'getAdminsByProject'])
+    ->middleware([CheckUserAssignedToProject::class]);
+
+    Route::get(uri: '/projects/{project_id}/assignables', action: [ProjectController::class, 'getAssignablesByProject'])
+    ->middleware([CheckUserAssignedToProject::class]);
+
+    ## ressources
+    Route::apiResource('tasks', TaskController::class);
+    Route::apiResource('projects', ProjectController::class);
+});
 
 
-## routes for projects
-Route::get(uri: '/projects/{project_id}/tasks', action: [ProjectController::class, 'getTaskByProject'])
-->middleware(['auth:sanctum', CheckUserAssignedToProject::class]);
 
-Route::get(uri: '/projects/{project_id}/users', action: [ProjectController::class, 'getUsersByProject'])
-->middleware(['auth:sanctum', CheckUserAssignedToProject::class]);
-Route::get(uri: '/projects/{project_id}/admins', action: [ProjectController::class, 'getAdminsByProject'])
-->middleware(['auth:sanctum', CheckUserAssignedToProject::class]);
-
-Route::get(uri: '/projects/{project_id}/assignables', action: [ProjectController::class, 'getAssignablesByProject'])
-->middleware(['auth:sanctum', CheckUserAssignedToProject::class]);
-
-## ressources
-Route::apiResource('tasks', TaskController::class)->middleware(['auth:sanctum']);
-Route::apiResource('projects', ProjectController::class)->middleware(['auth:sanctum']);

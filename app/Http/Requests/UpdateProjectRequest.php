@@ -13,11 +13,7 @@ class UpdateProjectRequest extends FormRequest
     public function authorize(): bool
     {
         $user = Auth::user();
-        $allowed = $user->role()
-        ->whereHas('permissions', function ($query) {
-            $query->where('code', 'EDITPROJECT');
-        })
-        ->exists();
+        $allowed = $user->hasPermission('EDITPROJECT');
         return $allowed;
     }
 

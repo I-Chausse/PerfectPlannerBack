@@ -13,11 +13,7 @@ class StoreProjectRequest extends FormRequest
     public function authorize(): bool
     {
         $user = Auth::user();
-        $allowed = $user->role()
-        ->whereHas('permissions', function ($query) {
-            $query->where('code', 'CREATEPROJECT');
-        })
-        ->exists();
+        $allowed = $user->hasPermission('CREATEPROJECT');
         return $allowed;
     }
 

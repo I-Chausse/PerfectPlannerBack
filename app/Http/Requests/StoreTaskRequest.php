@@ -16,11 +16,7 @@ class StoreTaskRequest extends FormRequest
     public function authorize(): bool
     {
         $user = Auth::user();
-        $allowed = $user->role()
-        ->whereHas('permissions', function ($query) {
-            $query->where('code', 'CREATETASK');
-        })
-        ->exists();
+        $allowed = $user->hasPermission('CREATETASK');
         return $allowed;
     }
 
@@ -31,7 +27,7 @@ class StoreTaskRequest extends FormRequest
      */
     public function rules(): array
     {
-        $editorId = Auth::user()->id();
+        // $editorId = Auth::user()->id();
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',

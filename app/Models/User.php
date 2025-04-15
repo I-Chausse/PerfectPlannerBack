@@ -5,11 +5,11 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -74,7 +74,16 @@ class User extends Authenticatable
         return $this->hasMany(Task::class);
     }
 
-    public function assignees(): HasManyThrough {
-        return $this->hasManyThrough(User::class, 'user_users', 'admin_user_id', 'id', 'id', 'assignee_user_id');
+    public function assignees(): BelongsToMany {
+        return $this->belongsToMany(User::class, 'user_users', 'admin_user_id', 'id', 'id', 'assignee_user_id');
+    }
+
+    public function hasPermission(string $permissionCode): bool
+    {
+        return $this->role()
+            ->whereHas('permissions', function ($query) use ($permissionCode) {
+                $query->where('code', $permissionCode);
+            })
+            ->exists();
     }
 }

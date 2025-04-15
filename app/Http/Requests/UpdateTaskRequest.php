@@ -14,11 +14,7 @@ class UpdateTaskRequest extends FormRequest
     public function authorize(): bool
     {
         $user = Auth::user();
-        $allowed = $user->role()
-        ->whereHas('permissions', function ($query) {
-            $query->where('code', 'EDITTASK');
-        })
-        ->exists();
+        $allowed = $user->hasPermission('EDITTASK');
         return $allowed;
     }
 
