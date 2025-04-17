@@ -17,6 +17,10 @@ class StoreTaskRequest extends FormRequest
     {
         $user = Auth::user();
         $allowed = $user->hasPermission('CREATETASK');
+        $user_id = request()->input('user_id'); // Récupérer l'assignee_id de la requête
+        if ($allowed && $user_id != null && $user_id != $user->id) {
+            $allowed = $user->hasPermission('ASSIGNUSERTOTASK');
+        }
         return $allowed;
     }
 
