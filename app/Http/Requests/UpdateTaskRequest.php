@@ -31,8 +31,8 @@ class UpdateTaskRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'remaining_time' => 'nullable|numeric',
+            'description' => 'sometimes|nullable|string',
+            'remaining_time' => 'sometimes|nullable|numeric|min:0',
             'project_id' => 'required|exists:projects,id',
             'domain_item_status_id' => [
                 'required',

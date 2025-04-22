@@ -31,11 +31,10 @@ class StoreTaskRequest extends FormRequest
      */
     public function rules(): array
     {
-        // $editorId = Auth::user()->id();
         return [
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'remaining_time' => 'nullable|numeric',
+            'description' => 'nullable|string|max:1000',
+            'remaining_time' => 'nullable|numeric|min:0',
             'project_id' => 'required|exists:projects,id',
             'domain_item_status_id' => [
                 'required',

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProjectPreviewRessource extends JsonResource
+class UserPreviewResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +16,10 @@ class ProjectPreviewRessource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->project_name,
+            'name' => $this->name,
+            'first_name' => $this->first_name,
+            'user_name' => $this->user_name,
+            'avatar_id' => $this->avatar_id,
         ];
     }
 }

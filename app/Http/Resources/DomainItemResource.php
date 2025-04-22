@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserPreviewRessource extends JsonResource
+class DomainItemResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,8 @@ class UserPreviewRessource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'first_name' => $this->first_name,
-            'user_name' => $this->user_name,
-            'avatar_id' => $this->avatar_id,
+            'code' => $this->code,
+            'label' => $this->label,
         ];
     }
 }

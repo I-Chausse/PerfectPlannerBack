@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
-use App\Http\Resources\ProjectPreviewRessource;
+use App\Http\Resources\ProjectPreviewResource;
 use App\Http\Resources\TaskResource;
-use App\Http\Resources\UserPreviewRessource;
+use App\Http\Resources\UserPreviewResource;
 use App\Models\Project;
 use Error;
 use Illuminate\Support\Facades\Auth;
@@ -70,7 +70,7 @@ class ProjectController extends Controller
     public function myProjects() {
         try {
             $projects = Auth::user()->projects;
-            return ProjectPreviewRessource::collection($projects);
+            return ProjectPreviewResource::collection($projects);
         }
         catch (Error $e) {
             return response()->json($e, 500);
@@ -114,7 +114,7 @@ class ProjectController extends Controller
         try {
             $project = Project::find($projectId);
             $users = $project->assignables()->get();
-            return UserPreviewRessource::collection($users);
+            return UserPreviewResource::collection($users);
         }
         catch (Error $e) {
             return response()->json($e, 500);

@@ -18,7 +18,9 @@ class Task extends Model
         'project_id',
         'domain_item_status_id',
         'domain_item_flag_id',
-        'user_id'
+        'user_id',
+        'description',
+        'remaining_time',
     ];
 
     public function user(): BelongsTo {

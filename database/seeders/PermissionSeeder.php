@@ -17,6 +17,9 @@ class PermissionSeeder extends Seeder
             ## Users
             ['id' => 11,'code' => 'ASSIGNUSERTOMANAGER', 'label' => 'Assigner un utilisateur à un manager', 'created_at' => now(), 'updated_at' => now()],
             ['id' => 21,'code' => 'CHANGEROLE', 'label' => 'Modifier le role', 'created_at' => now(), 'updated_at' => now()],
+            ['id'=> 22,'code'=> 'CREATEUSER', 'label'=> 'Créer un utilisateur', 'created_at' => now(), 'updated_at' => now()],
+            ['id'=> 23,'code'=> 'EDITUSER', 'label'=> 'Editer un utilisateur', 'created_at' => now(), 'updated_at' => now()],
+            ['id'=> 24,'code'=> 'DELETEUSER', 'label'=> 'Supprimer un utilisateur', 'created_at' => now(), 'updated_at' => now()],
             ## Tâches
             ['id' => 31,'code' => 'EDITTASK', 'label' => 'Editer une tâche', 'created_at' => now(), 'updated_at' => now()],
             ['id' => 32, 'code' => 'CREATETASK', 'label' => 'Créer une tâche', 'created_at' => now(), 'updated_at' => now()],
