@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $roles = Role::all();
         $avatars = Avatar::factory(10)->create();
-        $users = User::factory(10)
+        $users = User::factory(20)
             ->make()
             ->each(function ($user) use ($avatars, $roles) {
                 $user->avatar_id = $avatars->random()->id;
@@ -46,5 +46,14 @@ class DatabaseSeeder extends Seeder
             $projectIds = $projects->random(rand(1, 5))->pluck("id");
             $user->projects()->attach($projectIds);
         });
+        $users
+            ->whereBetween("role_id", [2, 3])
+            ->each(function ($user) use ($users) {
+                $userIds = $users
+                    ->where("role_id", 1)
+                    ->random(rand(1, 3))
+                    ->pluck("id");
+                $user->assignees()->attach($userIds);
+            });
     }
 }

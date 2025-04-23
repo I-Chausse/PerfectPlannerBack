@@ -13,6 +13,7 @@ use App\Models\User;
 use Error;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -106,7 +107,7 @@ class UserController extends Controller
             $validatedData = $request->validated();
             $token = InvitationToken::where(
                 "token",
-                $validatedData->token->token
+                $validatedData["token"]
             )->firstOrFail();
 
             if (!$token->isValid()) {
@@ -115,12 +116,17 @@ class UserController extends Controller
                     400
                 );
             }
+            unset($validatedData["token"]);
+            $validatedData["role_id"] = $token->role_id;
 
-            $user = User::create($validatedData->all()->except("token"));
-            $token->update(["user_id" => $user->id]);
+            $user = User::create($validatedData);
+            Log::info("User ID: " . $user->id);
+            $updateOk = $token->update(["user_id" => $user->id]);
+            Log::info("Token ID: " . $token->id);
+            Log::info("Token User ID: " . $token->user_id);
 
             return new UserResource($user);
-        } catch (Error $e) {
+        } catch (Exception $e) {
             return response()->json(["error" => $e->getMessage()], 400);
         }
     }

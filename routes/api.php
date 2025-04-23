@@ -10,6 +10,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckUserAssignedToProject;
+use App\Http\Middleware\CheckUserAssignedToUser;
 
 Route::post(uri: "/login", action: [AuthController::class, "login"]);
 Route::post("/register", [UserController::class, "storeWithToken"]); // Créer un utilisateur avec un token
@@ -40,7 +41,7 @@ Route::middleware(["auth:sanctum"])->group(function () {
     );
 
     ## routes admin
-    Route::post("/invitation-tokens", [
+    Route::post("/generate-invitation-token", [
         InvitationTokenController::class,
         "generate",
     ]);
@@ -64,6 +65,12 @@ Route::middleware(["auth:sanctum"])->group(function () {
         uri: "/projects/{project_id}/assignables",
         action: [ProjectController::class, "getAssignablesByProject"]
     )->middleware([CheckUserAssignedToProject::class]);
+
+    ## routes for tasks
+    Route::get(
+        uri: "/user/{user_id}/tasks",
+        action: [TaskController::class, "getTasksByUser"]
+    )->middleware([CheckUserAssignedToUser::class]);
 
     ## ressources
     Route::apiResource("tasks", TaskController::class);

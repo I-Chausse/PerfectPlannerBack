@@ -89,4 +89,16 @@ class TaskController extends Controller
             return response()->json($e, 500);
         }
     }
+
+    public function getTasksByUser($userId)
+    {
+        try {
+            $tasks = Task::with(["status", "flag", "user"])
+                ->where("user_id", $userId)
+                ->get();
+            return TaskResource::collection($tasks);
+        } catch (Error $e) {
+            return response()->json($e, 500);
+        }
+    }
 }

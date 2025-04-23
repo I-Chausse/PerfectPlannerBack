@@ -82,9 +82,9 @@ class User extends Authenticatable
             User::class,
             "user_users",
             "admin_user_id",
+            "assignee_user_id",
             "id",
-            "id",
-            "assignee_user_id"
+            "id"
         );
     }
 

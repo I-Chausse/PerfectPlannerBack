@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class InvitationToken extends Model
 {
-    protected $fillable = ["role_id"];
+    protected $fillable = ["role_id", "user_id"];
 
     protected static function boot()
     {

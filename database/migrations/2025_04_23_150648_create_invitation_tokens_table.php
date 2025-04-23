@@ -19,6 +19,7 @@ return new class extends Migration {
                 ->nullable()
                 ->constrained("users", "id");
             $table->foreignId("role_id")->constrained();
+            $table->date("expires_at");
             $table->timestamps();
         });
     }
