@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class UpdateUserRequest extends FormRequest
+class UpdateMeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,10 @@ class UpdateUserRequest extends FormRequest
     public function authorize(): bool
     {
         $user = Auth::user();
-        $allowed = $user->hasPermission('UPDATEUSER');
+        if ($user == null) {
+            return false;
+        }
+        $allowed = true;
         return $allowed;
     }
 
@@ -24,14 +27,14 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        // permet d'exclure les données de l'utilisateur connecté, qui vont être réecrites
+        // 'unique:table,colonne'. except . ',colonne_id'
         return [
             'name'=> 'required|string|max:255',
             'first_name'=> 'required|string|max:255',
-            'user_name'=> 'required|string|max:255|unique:users,user_name',
-            'email'=> 'required|string|email|max:255|unique:users,email',
-            'password'=> 'nullable|string|min:8',
+            'user_name'=> 'required|string|max:255|unique:users,user_name,'. Auth::user()->id . ',id',
+            'email'=> 'required|string|email|max:255|unique:users,email,' . Auth::user()->id . ',id',
             'avatar_id'=> 'nullable|numeric|exists:avatars,id',
-            'role_id'=> 'required|numeric|exists:roles,id',
         ];
     }
 }

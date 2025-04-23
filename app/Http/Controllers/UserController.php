@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateMeRequest;
+use App\Http\Requests\UpdateMyPasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -68,6 +70,30 @@ class UserController extends Controller
             $user = Auth::user();
             $user = User::where('id', $user->id)->get();
             return UserResource::collection($user);
+        }
+        catch (Error $e) {
+            return response()->json($e, 500);
+        }
+    }
+
+    public function updateMe(UpdateMeRequest $request) {
+        try {
+            $user = Auth::user();
+            $validatedData = $request->validated();
+            $user->update($validatedData);
+            return response()->json($user, 200);
+        }
+        catch (Error $e) {
+            return response()->json($e, 500);
+        }
+    }
+
+    public function updateMyPassword(UpdateMyPasswordRequest $request) {
+        try {
+            $user = Auth::user();
+            $validatedData = $request->validated();
+            $user->update($validatedData);
+            return response()->json($user, 200);
         }
         catch (Error $e) {
             return response()->json($e, 500);

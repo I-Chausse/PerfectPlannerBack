@@ -24,6 +24,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get(uri: '/my-projects', action: [ProjectController::class, 'myProjects']);
     Route::get(uri: '/get-items/{domain}', action: [DomainItemController::class, 'getByDomain']);
     Route::get(uri: '/me', action: [UserController::class, 'me']);
+    Route::put(uri:'/updateMe', action: [UserController::class, 'updateMe']);
+    Route::put(uri:'/updateMyPassword', action: [UserController::class, 'updateMyPassword']);
 
     ## routes for projects
     Route::get(uri: '/projects/{project_id}/tasks', action: [ProjectController::class, 'getTaskByProject'])
@@ -40,6 +42,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ## ressources
     Route::apiResource('tasks', TaskController::class);
     Route::apiResource('projects', ProjectController::class);
+    Route::apiResource('users', UserController::class);
 });
 
 
