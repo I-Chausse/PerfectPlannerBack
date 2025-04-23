@@ -22,6 +22,10 @@ Route::middleware(["auth:sanctum"])->group(function () {
             return $request->user();
         }
     );
+    Route::post(
+        uri: "/logout",
+        action: [AuthController::class, "logout"]
+    );
 
     ## my routes
     Route::get(uri: "/my-tasks", action: [TaskController::class, "myTasks"]);
