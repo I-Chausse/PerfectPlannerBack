@@ -24,16 +24,21 @@ class DomainItemInSpecificDomain implements ValidationRule
      *
      * @param \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString $fail
      */
-    public function validate(string $attribute, mixed $value, Closure $fail): void
-    {
-        $exists = DomainItem::where('id', $value)
-            ->whereHas('domain', function ($query) {
-                $query->where('code', $this->domainCode);
+    public function validate(
+        string $attribute,
+        mixed $value,
+        Closure $fail
+    ): void {
+        $exists = DomainItem::where("id", $value)
+            ->whereHas("domain", function ($query) {
+                $query->where("code", $this->domainCode);
             })
             ->exists();
 
         if (!$exists) {
-            $fail("The selected domain item is invalid or does not belong to the specified domain.");
+            $fail(
+                "The selected domain item is invalid or does not belong to the specified domain."
+            );
         }
     }
 }

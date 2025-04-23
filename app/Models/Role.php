@@ -7,9 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Role extends Model
 {
-
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'permission_roles');
+        return $this->belongsToMany(Permission::class, "permission_roles");
     }
 }

@@ -13,32 +13,33 @@ class Project extends Model
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory;
 
-    protected $fillable = [
-        'project_name',
-    ];
+    protected $fillable = ["project_name"];
 
-    public function users(): BelongsToMany {
-    return $this->belongsToMany(User::class, 'project_users')
-        ->join('roles', 'users.role_id', '=', 'roles.id')
-        ->where('roles.code', 'user');
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, "project_users")
+            ->join("roles", "users.role_id", "=", "roles.id")
+            ->where("roles.code", "user");
     }
 
-
-    public function admins(): BelongsToMany {
-        return $this->belongsToMany(User::class, 'project_users')
-        ->join('roles', 'users.role_id', '=', 'roles.id')
-        ->where(function($query) {
-            $query->where('roles.code', 'project_admin')
-                  ->orWhere('roles.code', 'admin');
-                }
-            );
+    public function admins(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, "project_users")
+            ->join("roles", "users.role_id", "=", "roles.id")
+            ->where(function ($query) {
+                $query
+                    ->where("roles.code", "project_admin")
+                    ->orWhere("roles.code", "admin");
+            });
     }
 
-    public function assignables(): BelongsToMany {
-        return $this->belongsToMany(User::class, 'project_users');
+    public function assignables(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, "project_users");
     }
 
-    public function tasks(): HasMany {
+    public function tasks(): HasMany
+    {
         return $this->hasMany(Task::class);
     }
 }

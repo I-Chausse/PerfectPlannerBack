@@ -13,7 +13,7 @@ class UpdateProjectRequest extends FormRequest
     public function authorize(): bool
     {
         $user = Auth::user();
-        $allowed = $user->hasPermission('EDITPROJECT');
+        $allowed = $user->hasPermission("EDITPROJECT");
         return $allowed;
     }
 
@@ -25,7 +25,7 @@ class UpdateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'project_name' => 'required|string|max:255',
+            "project_name" => "required|string|max:255",
         ];
     }
 }

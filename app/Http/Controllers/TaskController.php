@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteTaskRequest;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
@@ -16,7 +17,12 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $tasks = Task::with(["status", "flag", "user"])->get();
+            return TaskResource::collection($tasks);
+        } catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 
     /**
@@ -27,9 +33,8 @@ class TaskController extends Controller
         try {
             $validatedData = $request->validated();
             $task = Task::create($validatedData);
-            return response()->json($task, 201);
-        }
-        catch (Error $e) {
+            return new TaskResource($task);
+        } catch (Error $e) {
             return response()->json($e, 500);
         }
     }
@@ -39,7 +44,12 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        try {
+            $task = $task->load(["status", "flag", "user"]);
+            return new TaskResource($task);
+        } catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 
     public function update(UpdateTaskRequest $request, Task $task)
@@ -47,9 +57,8 @@ class TaskController extends Controller
         try {
             $validatedData = $request->validated();
             $task->update($validatedData);
-            return response()->json($task, 200);
-        }
-        catch (Error $e) {
+            return new TaskResource($task);
+        } catch (Error $e) {
             return response()->json($e, 500);
         }
     }
@@ -57,18 +66,26 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(DeleteTaskRequest $request, Task $task)
     {
-        //
+        try {
+            $task->delete();
+            return response()->json(null, 204);
+        } catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 
-    public function myTasks() {
+    public function myTasks()
+    {
         try {
             $user = Auth::user();
-            $tasks = $user->tasks()->with(['status', 'flag', 'user'])->get();
+            $tasks = $user
+                ->tasks()
+                ->with(["status", "flag", "user"])
+                ->get();
             return TaskResource::collection($tasks);
-        }
-        catch (Error $e) {
+        } catch (Error $e) {
             return response()->json($e, 500);
         }
     }

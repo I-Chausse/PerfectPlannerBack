@@ -17,7 +17,7 @@ class AvatarFactory extends Factory
     public function definition(): array
     {
         return [
-            'link' => fake()->url(),
+            "link" => fake()->url(),
         ];
     }
 }

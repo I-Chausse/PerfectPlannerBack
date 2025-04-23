@@ -15,8 +15,10 @@ class ProjectPreviewResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->project_name,
+            "id" => $this->id,
+            "name" => $this->project_name,
+            "admins" => UserPreviewResource::collection($this->admins),
+            "users" => UserPreviewResource::collection($this->users),
         ];
     }
 }

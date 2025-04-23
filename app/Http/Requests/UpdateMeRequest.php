@@ -30,11 +30,17 @@ class UpdateMeRequest extends FormRequest
         // permet d'exclure les données de l'utilisateur connecté, qui vont être réecrites
         // 'unique:table,colonne'. except . ',colonne_id'
         return [
-            'name'=> 'required|string|max:255',
-            'first_name'=> 'required|string|max:255',
-            'user_name'=> 'required|string|max:255|unique:users,user_name,'. Auth::user()->id . ',id',
-            'email'=> 'required|string|email|max:255|unique:users,email,' . Auth::user()->id . ',id',
-            'avatar_id'=> 'nullable|numeric|exists:avatars,id',
+            "name" => "required|string|max:255",
+            "first_name" => "required|string|max:255",
+            "user_name" =>
+                "required|string|max:255|unique:users,user_name," .
+                Auth::user()->id .
+                ",id",
+            "email" =>
+                "required|string|email|max:255|unique:users,email," .
+                Auth::user()->id .
+                ",id",
+            "avatar_id" => "nullable|numeric|exists:avatars,id",
         ];
     }
 }

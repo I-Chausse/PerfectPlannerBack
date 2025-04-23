@@ -29,14 +29,14 @@ class UpdateMyPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'old_password' => [
-                'required',
-                'string',
-                'min:8', 
-                new OldPasswordMatch()
+            "old_password" => [
+                "required",
+                "string",
+                "min:8",
+                new OldPasswordMatch(),
             ],
-            'password' => 'required|string|min:8|confirmed',
-            'password_confirmation' => 'required|string|min:8',
+            "password" => "required|string|min:8|confirmed",
+            "password_confirmation" => "required|string|min:8",
         ];
     }
 }

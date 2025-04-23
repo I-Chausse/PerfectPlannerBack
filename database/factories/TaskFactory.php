@@ -21,16 +21,19 @@ class TaskFactory extends Factory
         if ($randomNumber == 1) {
             $assigned_id = null;
         } else {
-            $assigned_id = User::where('role_id', 1)->inRandomOrder()->limit(1)->pluck('id')[0];
+            $assigned_id = User::where("role_id", 1)
+                ->inRandomOrder()
+                ->limit(1)
+                ->pluck("id")[0];
         }
         return [
-            'name' => fake()->bs(),
-            'description' => fake()->catchPhrase(),
-            'remaining_time' => fake()->numberBetween(1, 12),
-            'project_id' => fake()->numberBetween(1, 10),
-            'domain_item_status_id' => fake()->numberBetween(101, 105),
-            'domain_item_flag_id' => fake()->numberBetween(201, 205),
-            'user_id' => $assigned_id,
+            "name" => fake()->bs(),
+            "description" => fake()->catchPhrase(),
+            "remaining_time" => fake()->numberBetween(1, 12),
+            "project_id" => fake()->numberBetween(1, 10),
+            "domain_item_status_id" => fake()->numberBetween(101, 105),
+            "domain_item_flag_id" => fake()->numberBetween(201, 205),
+            "user_id" => $assigned_id,
         ];
     }
 }

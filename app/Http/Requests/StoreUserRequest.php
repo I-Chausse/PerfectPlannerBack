@@ -13,7 +13,7 @@ class StoreUserRequest extends FormRequest
     public function authorize(): bool
     {
         $user = Auth::user();
-        $allowed = $user->hasPermission('CREATEUSER');
+        $allowed = $user->hasPermission("CREATEUSER");
         return $allowed;
     }
 
@@ -25,13 +25,13 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=> 'required|string|max:255',
-            'first_name'=> 'required|string|max:255',
-            'user_name'=> 'required|string|max:255|unique:users,user_name',
-            'email'=> 'required|string|email|max:255|unique:users,email',
-            'password'=> 'required|string|min:8|confirmed',
-            'avatar_id'=> 'nullable|numeric|exists:avatars,id',
-            'role_id'=> 'required|numeric|exists:roles,id',
+            "name" => "required|string|max:255",
+            "first_name" => "required|string|max:255",
+            "user_name" => "required|string|max:255|unique:users,user_name",
+            "email" => "required|string|email|max:255|unique:users,email",
+            "password" => "required|string|min:8|confirmed",
+            "avatar_id" => "nullable|numeric|exists:avatars,id",
+            "role_id" => "required|numeric|exists:roles,id",
         ];
     }
 }

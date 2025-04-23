@@ -16,10 +16,10 @@ class StoreTaskRequest extends FormRequest
     public function authorize(): bool
     {
         $user = Auth::user();
-        $allowed = $user->hasPermission('CREATETASK');
-        $user_id = request()->input('user_id'); // Récupérer l'assignee_id de la requête
+        $allowed = $user->hasPermission("CREATETASK");
+        $user_id = request()->input("user_id"); // Récupérer l'assignee_id de la requête
         if ($allowed && $user_id != null && $user_id != $user->id) {
-            $allowed = $user->hasPermission('ASSIGNUSERTOTASK');
+            $allowed = $user->hasPermission("ASSIGNUSERTOTASK");
         }
         return $allowed;
     }
@@ -32,25 +32,21 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:1000',
-            'remaining_time' => 'nullable|numeric|min:0',
-            'project_id' => 'required|exists:projects,id',
-            'domain_item_status_id' => [
-                'required',
-                'numeric',
-                new DomainItemInSpecificDomain('status'),
+            "name" => "required|string|max:255",
+            "description" => "nullable|string|max:1000",
+            "remaining_time" => "nullable|numeric|min:0",
+            "project_id" => "required|exists:projects,id",
+            "domain_item_status_id" => [
+                "required",
+                "numeric",
+                new DomainItemInSpecificDomain("status"),
             ],
-            'domain_item_flag_id' => [
-                'required',
-                'numeric',
-                new DomainItemInSpecificDomain('flags'),
+            "domain_item_flag_id" => [
+                "required",
+                "numeric",
+                new DomainItemInSpecificDomain("flags"),
             ],
-            'user_id' => [
-                'nullable',
-                'numeric',
-                'exists:users,id',
-            ],
+            "user_id" => ["nullable", "numeric", "exists:users,id"],
         ];
     }
 }

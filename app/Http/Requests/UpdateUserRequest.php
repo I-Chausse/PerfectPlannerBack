@@ -13,7 +13,7 @@ class UpdateUserRequest extends FormRequest
     public function authorize(): bool
     {
         $user = Auth::user();
-        $allowed = $user->hasPermission('UPDATEUSER');
+        $allowed = $user->hasPermission("UPDATEUSER");
         return $allowed;
     }
 
@@ -24,14 +24,21 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $user_id = request()->route("user")->id;
         return [
-            'name'=> 'required|string|max:255',
-            'first_name'=> 'required|string|max:255',
-            'user_name'=> 'required|string|max:255|unique:users,user_name',
-            'email'=> 'required|string|email|max:255|unique:users,email',
-            'password'=> 'nullable|string|min:8',
-            'avatar_id'=> 'nullable|numeric|exists:avatars,id',
-            'role_id'=> 'required|numeric|exists:roles,id',
+            "name" => "required|string|max:255",
+            "first_name" => "required|string|max:255",
+            "user_name" =>
+                "required|string|max:255|unique:users,user_name," .
+                $user_id .
+                ",id",
+            "email" =>
+                "required|string|email|max:255|unique:users,email," .
+                $user_id .
+                ",id",
+            "password" => "nullable|string|min:8",
+            "avatar_id" => "nullable|numeric|exists:avatars,id",
+            "role_id" => "required|numeric|exists:roles,id",
         ];
     }
 }

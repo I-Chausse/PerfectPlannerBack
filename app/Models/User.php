@@ -23,13 +23,13 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'user_name',
-        'first_name',
-        'avatar_id',
-        'role_id'
+        "name",
+        "email",
+        "password",
+        "user_name",
+        "first_name",
+        "avatar_id",
+        "role_id",
     ];
 
     /**
@@ -38,10 +38,10 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
-        'created_at',
-        'updated_at'
+        "password",
+        "remember_token",
+        "created_at",
+        "updated_at",
     ];
 
     /**
@@ -52,37 +52,47 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            "email_verified_at" => "datetime",
+            "password" => "hashed",
         ];
     }
 
-
-    public function avatar(): HasOne {
+    public function avatar(): HasOne
+    {
         return $this->hasOne(Avatar::class);
     }
 
-    public function role(): BelongsTo {
+    public function role(): BelongsTo
+    {
         return $this->belongsTo(Role::class);
     }
 
     public function projects()
     {
-        return $this->belongsToMany(Project::class, 'project_users');
+        return $this->belongsToMany(Project::class, "project_users");
     }
-    public function tasks(): HasMany {
+    public function tasks(): HasMany
+    {
         return $this->hasMany(Task::class);
     }
 
-    public function assignees(): BelongsToMany {
-        return $this->belongsToMany(User::class, 'user_users', 'admin_user_id', 'id', 'id', 'assignee_user_id');
+    public function assignees(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            "user_users",
+            "admin_user_id",
+            "id",
+            "id",
+            "assignee_user_id"
+        );
     }
 
     public function hasPermission(string $permissionCode): bool
     {
         return $this->role()
-            ->whereHas('permissions', function ($query) use ($permissionCode) {
-                $query->where('code', $permissionCode);
+            ->whereHas("permissions", function ($query) use ($permissionCode) {
+                $query->where("code", $permissionCode);
             })
             ->exists();
     }

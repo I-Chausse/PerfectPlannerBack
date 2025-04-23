@@ -13,22 +13,145 @@ class PermissionRoleSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('permission_roles')->insert([
-            ['permission_id' => 11, 'role_id' => 2,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 11, 'role_id' => 3,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 21, 'role_id' => 3,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 31, 'role_id' => 1,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 31, 'role_id' => 2,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 31, 'role_id' => 3,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 32, 'role_id' => 1,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 32, 'role_id' => 2,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 33, 'role_id' => 2,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 33, 'role_id' => 3,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 32, 'role_id' => 3,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 41, 'role_id' => 3,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 42, 'role_id' => 3,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 43, 'role_id' => 3,'created_at' => now(), 'updated_at' => now()],
-            ['permission_id' => 44, 'role_id' => 3,'created_at' => now(), 'updated_at' => now()],
+        DB::table("permission_roles")->insert([
+            [
+                "permission_id" => 11,
+                "role_id" => 2,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 11,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 21,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 22,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 23,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 24,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 25,
+                "role_id" => 2,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 25,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 31,
+                "role_id" => 1,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 31,
+                "role_id" => 2,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 31,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 32,
+                "role_id" => 1,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 32,
+                "role_id" => 2,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 32,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 33,
+                "role_id" => 2,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 33,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 34,
+                "role_id" => 2,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 34,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 41,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 42,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 43,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 44,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
+            [
+                "permission_id" => 45,
+                "role_id" => 3,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
         ]);
     }
 }

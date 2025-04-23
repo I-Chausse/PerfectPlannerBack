@@ -5,16 +5,14 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreProjectRequest extends FormRequest
+class DeleteTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        $user = Auth::user();
-        $allowed = $user->hasPermission("CREATEPROJECT");
-        return $allowed;
+        return Auth::user()->hasPermission("DELETETASK");
     }
 
     /**
@@ -24,8 +22,6 @@ class StoreProjectRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            "project_name" => "required|string|max:255",
-        ];
+        return [];
     }
 }
