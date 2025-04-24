@@ -46,6 +46,10 @@ Route::middleware(["auth:sanctum"])->group(function () {
         InvitationTokenController::class,
         "generate",
     ]);
+    Route::put(
+        uri: "/users/{manager_id}/update-assignees",
+        action: [UserController::class, "UpdateUsersAssignedToManager"]
+    );
 
     ## routes for projects
     Route::get(

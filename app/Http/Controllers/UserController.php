@@ -10,7 +10,7 @@ use App\Http\Requests\StoreUserWithTokenRequest;
 use App\Http\Requests\UpdateMeRequest;
 use App\Http\Requests\UpdateMyPasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Http\Requests\UpdateUsersAssignedToProjectRequest;
+use App\Http\Requests\UpdateUsersAssignedToManagerRequest;
 use App\Http\Resources\UserAugmentedResource;
 use App\Http\Resources\UserResource;
 use App\Models\InvitationToken;
@@ -31,7 +31,7 @@ class UserController extends Controller
             $users = User::all()->load(["role", "assignees"]);
             return UserAugmentedResource::collection($users);
         } catch (Error $e) {
-            return response()->json($e, 500);
+            return response()->json(["error" => $e->getMessage()], 500);
         }
     }
 
@@ -45,7 +45,7 @@ class UserController extends Controller
             $task = User::create($validatedData);
             return response()->json($task, 201);
         } catch (Error $e) {
-            return response()->json($e, 500);
+            return response()->json(["error" => $e->getMessage()], 500);
         }
     }
 
@@ -59,7 +59,7 @@ class UserController extends Controller
                 $user->load(["role", "assignees"])
             );
         } catch (Error $e) {
-            return response()->json($e, 500);
+            return response()->json(["error" => $e->getMessage()], 500);
         }
     }
 
@@ -70,7 +70,7 @@ class UserController extends Controller
             $user->update($validatedData);
             return response()->json($user, 200);
         } catch (Error $e) {
-            return response()->json($e, 500);
+            return response()->json(["error" => $e->getMessage()], 500);
         }
     }
 
@@ -86,7 +86,7 @@ class UserController extends Controller
             $user->delete();
             return response()->json(null, 204);
         } catch (Error $e) {
-            return response()->json($e, 500);
+            return response()->json(["error" => $e->getMessage()], 500);
         }
     }
 
@@ -97,7 +97,7 @@ class UserController extends Controller
             $user = User::where("id", $user->id)->get();
             return UserResource::collection($user);
         } catch (Error $e) {
-            return response()->json($e, 500);
+            return response()->json(["error" => $e->getMessage()], 500);
         }
     }
 
@@ -109,7 +109,7 @@ class UserController extends Controller
             $user->update($validatedData);
             return response()->json($user, 200);
         } catch (Error $e) {
-            return response()->json($e, 500);
+            return response()->json(["error" => $e->getMessage()], 500);
         }
     }
 
@@ -121,7 +121,7 @@ class UserController extends Controller
             $user->update($validatedData);
             return response()->json($user, 200);
         } catch (Error $e) {
-            return response()->json($e, 500);
+            return response()->json(["error" => $e->getMessage()], 500);
         }
     }
 
@@ -144,28 +144,28 @@ class UserController extends Controller
             $validatedData["role_id"] = $token->role_id;
 
             $user = User::create($validatedData);
-            Log::info("User ID: " . $user->id);
-            $updateOk = $token->update(["user_id" => $user->id]);
-            Log::info("Token ID: " . $token->id);
-            Log::info("Token User ID: " . $token->user_id);
+            $token->update(["user_id" => $user->id]);
 
             return new UserResource($user);
         } catch (Exception $e) {
-            return response()->json(["error" => $e->getMessage()], 400);
+            return response()->json(["error" => $e->getMessage()], 500);
         }
     }
 
-    public function UpdateUsersAssignedToProject(
-        UpdateUsersAssignedToProjectRequest $request
+    public function UpdateUsersAssignedToManager(
+        UpdateUsersAssignedToManagerRequest $request
     ) {
         try {
             $validatedData = $request->validated();
-            $project = request()->route("project");
+            $user = request()->route("manager_id");
+            $user = User::findOrFail($user);
             $usersToAssignIds = $validatedData["users_to_assign"];
-            $project->users()->sync($usersToAssignIds);
-            return response()->json($project, 200);
+            $user->assignees()->sync($usersToAssignIds);
+            return new UserAugmentedResource(
+                $user->load(["role", "assignees"])
+            );
         } catch (Error $e) {
-            return response()->json($e, 500);
+            return response()->json(["error" => $e->getMessage()], 500);
         }
     }
 }
