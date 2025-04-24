@@ -13,7 +13,7 @@ class UpdateUserRequest extends FormRequest
     public function authorize(): bool
     {
         $user = Auth::user();
-        $allowed = $user->hasPermission("UPDATEUSER");
+        $allowed = $user->hasPermission("EDITUSER");
         return $allowed;
     }
 

@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Resources;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class UserAugmentedResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            "id" => $this->id,
+            "name" => $this->name,
+            "first_name" => $this->first_name,
+            "user_name" => $this->user_name,
+            "avatar_id" => $this->avatar_id,
+            "email" => $this->email,
+            "assignees" => UserResource::collection($this->assignees),
+            "role" => new DomainItemResource($this->role),
+        ];
+    }
+}

@@ -29,7 +29,7 @@ class StoreUserRequest extends FormRequest
             "first_name" => "required|string|max:255",
             "user_name" => "required|string|max:255|unique:users,user_name",
             "email" => "required|string|email|max:255|unique:users,email",
-            "password" => "required|string|min:8|confirmed",
+            "password" => "required|string|min:8",
             "avatar_id" => "nullable|numeric|exists:avatars,id",
             "role_id" => "required|numeric|exists:roles,id",
         ];

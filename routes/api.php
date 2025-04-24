@@ -22,10 +22,7 @@ Route::middleware(["auth:sanctum"])->group(function () {
             return $request->user();
         }
     );
-    Route::post(
-        uri: "/logout",
-        action: [AuthController::class, "logout"]
-    );
+    Route::post(uri: "/logout", action: [AuthController::class, "logout"]);
 
     ## my routes
     Route::get(uri: "/my-tasks", action: [TaskController::class, "myTasks"]);
@@ -69,6 +66,10 @@ Route::middleware(["auth:sanctum"])->group(function () {
         uri: "/projects/{project_id}/assignables",
         action: [ProjectController::class, "getAssignablesByProject"]
     )->middleware([CheckUserAssignedToProject::class]);
+    Route::put(
+        uri: "/projects/{project_id}/update-assignees",
+        action: [ProjectController::class, "UpdateUsersAssignedToProject"]
+    );
 
     ## routes for tasks
     Route::get(

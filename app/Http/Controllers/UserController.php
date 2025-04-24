@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteUserRequest;
+use App\Http\Requests\IndexUsersRequest;
+use App\Http\Requests\ShowUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\StoreUserWithTokenRequest;
 use App\Http\Requests\UpdateMeRequest;
 use App\Http\Requests\UpdateMyPasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UpdateUsersAssignedToProjectRequest;
+use App\Http\Resources\UserAugmentedResource;
 use App\Http\Resources\UserResource;
 use App\Models\InvitationToken;
 use App\Models\User;
@@ -20,9 +25,14 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexUsersRequest $request)
     {
-        //
+        try {
+            $users = User::all()->load(["role", "assignees"]);
+            return UserAugmentedResource::collection($users);
+        } catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 
     /**
@@ -42,9 +52,15 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $task)
+    public function show(ShowUserRequest $request, User $user)
     {
-        //
+        try {
+            return new UserAugmentedResource(
+                $user->load(["role", "assignees"])
+            );
+        } catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 
     public function update(UpdateUserRequest $request, User $user)
@@ -61,9 +77,17 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(DeleteUserRequest $request, User $user)
     {
-        //
+        try {
+            $user->assignees()->detach();
+            $user->tasks()->update(["user_id" => null]);
+            $user->projects()->detach();
+            $user->delete();
+            return response()->json(null, 204);
+        } catch (Error $e) {
+            return response()->json($e, 500);
+        }
     }
 
     public function me()
@@ -128,6 +152,20 @@ class UserController extends Controller
             return new UserResource($user);
         } catch (Exception $e) {
             return response()->json(["error" => $e->getMessage()], 400);
+        }
+    }
+
+    public function UpdateUsersAssignedToProject(
+        UpdateUsersAssignedToProjectRequest $request
+    ) {
+        try {
+            $validatedData = $request->validated();
+            $project = request()->route("project");
+            $usersToAssignIds = $validatedData["users_to_assign"];
+            $project->users()->sync($usersToAssignIds);
+            return response()->json($project, 200);
+        } catch (Error $e) {
+            return response()->json($e, 500);
         }
     }
 }

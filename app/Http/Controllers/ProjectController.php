@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DeleteProjectRequest;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Requests\UpdateUsersAssignedToProjectRequest;
 use App\Http\Resources\ProjectPreviewResource;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\UserPreviewResource;
 use App\Models\Project;
+use App\Models\User;
 use Error;
 use Illuminate\Support\Facades\Auth;
 
@@ -125,6 +127,21 @@ class ProjectController extends Controller
             $project = Project::find($projectId);
             $users = $project->assignables()->get();
             return UserPreviewResource::collection($users);
+        } catch (Error $e) {
+            return response()->json($e, 500);
+        }
+    }
+
+    public function updateUsersAssignedToProject(
+        UpdateUsersAssignedToProjectRequest $request,
+        int $projectId
+    ) {
+        try {
+            $project = Project::find($projectId);
+            $usersToAssignIds = $request->validated()["users_to_assign"];
+            $usersToAssign = User::whereIn("id", $usersToAssignIds)->get();
+            $project->users()->sync($usersToAssign);
+            return new ProjectPreviewResource($project);
         } catch (Error $e) {
             return response()->json($e, 500);
         }

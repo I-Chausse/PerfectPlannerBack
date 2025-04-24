@@ -57,6 +57,13 @@ class PermissionSeeder extends Seeder
                 "created_at" => now(),
                 "updated_at" => now(),
             ],
+            [
+                "id" => 26,
+                "code" => "VIEWUSERS",
+                "label" => "Voir un/les utilisateur",
+                "created_at" => now(),
+                "updated_at" => now(),
+            ],
             ## Tâches
             [
                 "id" => 31,
