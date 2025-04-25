@@ -16,12 +16,6 @@ Route::post(uri: "/login", action: [AuthController::class, "login"]);
 Route::post("/register", [UserController::class, "storeWithToken"]); // Créer un utilisateur avec un token
 
 Route::middleware(["auth:sanctum"])->group(function () {
-    Route::get(
-        uri: "/user",
-        action: function (Request $request) {
-            return $request->user();
-        }
-    );
     Route::post(uri: "/logout", action: [AuthController::class, "logout"]);
 
     ## my routes
@@ -29,10 +23,6 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::get(
         uri: "/my-projects",
         action: [ProjectController::class, "myProjects"]
-    );
-    Route::get(
-        uri: "/get-items/{domain}",
-        action: [DomainItemController::class, "getByDomain"]
     );
     Route::get(uri: "/me", action: [UserController::class, "me"]);
     Route::put(uri: "/update-me", action: [UserController::class, "updateMe"]);
@@ -51,12 +41,17 @@ Route::middleware(["auth:sanctum"])->group(function () {
         action: [UserController::class, "UpdateUsersAssignedToManager"]
     );
 
+    ## routes for domain items
+    Route::get(
+        uri: "/get-items/{domain}",
+        action: [DomainItemController::class, "getByDomain"]
+    );
+
     ## routes for projects
     Route::get(
         uri: "/projects/{project_id}/tasks",
         action: [ProjectController::class, "getTaskByProject"]
     )->middleware([CheckUserAssignedToProject::class]);
-
     Route::get(
         uri: "/projects/{project_id}/users",
         action: [ProjectController::class, "getUsersByProject"]
@@ -65,7 +60,6 @@ Route::middleware(["auth:sanctum"])->group(function () {
         uri: "/projects/{project_id}/admins",
         action: [ProjectController::class, "getAdminsByProject"]
     );
-
     Route::get(
         uri: "/projects/{project_id}/assignables",
         action: [ProjectController::class, "getAssignablesByProject"]

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Error;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -21,7 +22,7 @@ class AuthController extends Controller
                     200
                 );
             }
-            return response()->json(["message" => "Unauthorized"], 401);
+            return response()->json(["message" => "Invalid credentials"], 401);
         } catch (Error $e) {
             return response()->json($e, 500);
         }
