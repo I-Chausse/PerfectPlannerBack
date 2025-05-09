@@ -29,11 +29,16 @@ class UserController extends Controller
     {
         try {
             $role = request()->query('role');
+            $userName = request()->query('username');
             if ($role) {
                 $rolesArray = explode(',', $role);
                 $users = User::whereHas('role', function ($query) use ($rolesArray) {
                     $query->whereIn('code', $rolesArray);
                 })->get()->load(["role", "assignees", "avatar"]);
+            }
+            else if ($userName) {
+                Log::debug($userName);
+                $users = User::where('user_name', 'LIKE', "%$userName%")->get()->load(["role", "assignees", "avatar"]);
             }
             else {
                 $users = User::all()->load(["role", "assignees", "avatar"]);

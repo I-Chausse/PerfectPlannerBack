@@ -21,7 +21,13 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all()->load(["admins", "users"]);
+        $projectName = request()->query('projectname');
+        if ($projectName) {
+            $projects = Project::where('project_name', 'LIKE', "%$projectName%")->get()->load(["admins", "users"]);
+        }
+        else {
+            $projects = Project::all()->load(["admins", "users"]);
+        }
         return ProjectPreviewResource::collection($projects);
     }
 
