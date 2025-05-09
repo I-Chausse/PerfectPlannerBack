@@ -88,6 +88,11 @@ class User extends Authenticatable
         );
     }
 
+    public function invitationToken() : HasOne
+    {
+        return $this->hasOne(InvitationToken::class);
+    }
+
     public function hasPermission(string $permissionCode): bool
     {
         return $this->role()

@@ -97,6 +97,7 @@ class UserController extends Controller
             $user->assignees()->detach();
             $user->tasks()->update(["user_id" => null]);
             $user->projects()->detach();
+            $user->invitationToken()->delete();
             $user->delete();
             return response()->json(null, 204);
         } catch (Error $e) {
