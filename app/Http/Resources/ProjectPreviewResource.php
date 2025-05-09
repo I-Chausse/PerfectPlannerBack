@@ -16,7 +16,7 @@ class ProjectPreviewResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "name" => $this->project_name,
+            "project_name" => $this->project_name,
             "admins" => UserPreviewResource::collection($this->admins),
             "users" => UserPreviewResource::collection($this->users),
         ];

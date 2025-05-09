@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DomainItemController;
 use App\Http\Controllers\InvitationTokenController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckUserAssignedToProject;
@@ -45,6 +46,12 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::get(
         uri: "/get-items/{domain}",
         action: [DomainItemController::class, "getByDomain"]
+    );
+
+    ## routes for roles
+    Route::get(
+        uri: "/get-roles",
+        action: [RoleController::class, "getRoles"]
     );
 
     ## routes for projects

@@ -57,9 +57,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function avatar(): HasOne
+    public function avatar(): BelongsTo
     {
-        return $this->hasOne(Avatar::class);
+        return $this->belongsTo(Avatar::class);
     }
 
     public function role(): BelongsTo

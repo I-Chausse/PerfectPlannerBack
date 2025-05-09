@@ -29,7 +29,7 @@ class UpdateUsersAssignedToManagerRequest extends FormRequest
             "manager_id" => request()->route("manager_id"),
         ]);
         return [
-            "users_to_assign" => ["required", "array"],
+            "users_to_assign" => ["present", "array"],
             "users_to_assign.*" => [
                 "integer",
                 "exists:users,id",

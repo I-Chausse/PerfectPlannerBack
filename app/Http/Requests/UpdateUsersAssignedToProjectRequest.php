@@ -45,7 +45,7 @@ class UpdateUsersAssignedToProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "users_to_assign" => ["required", "array"],
+            "users_to_assign" => ["present", "array"],
             "users_to_assign.*" => ["integer", "exists:users,id"],
         ];
     }

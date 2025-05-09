@@ -9,4 +9,6 @@ class Avatar extends Model
 {
     /** @use HasFactory<\Database\Factories\AvatarFactory> */
     use HasFactory;
+
+    protected $hidden = ["created_at", "updated_at"];
 }

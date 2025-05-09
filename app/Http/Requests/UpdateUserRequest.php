@@ -41,4 +41,14 @@ class UpdateUserRequest extends FormRequest
             "role_id" => "required|numeric|exists:roles,id",
         ];
     }
+    public function validated($key = null, $default = null)
+    {
+        $validatedData = parent::validated($key, $default);
+
+        if (is_null($validatedData['password'])) {
+            unset($validatedData['password']);
+        }
+
+        return $validatedData;
+    }
 }

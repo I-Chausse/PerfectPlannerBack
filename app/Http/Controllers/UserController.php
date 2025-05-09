@@ -28,7 +28,16 @@ class UserController extends Controller
     public function index(IndexUsersRequest $request)
     {
         try {
-            $users = User::all()->load(["role", "assignees"]);
+            $role = request()->query('role');
+            if ($role) {
+                $rolesArray = explode(',', $role);
+                $users = User::whereHas('role', function ($query) use ($rolesArray) {
+                    $query->whereIn('code', $rolesArray);
+                })->get()->load(["role", "assignees", "avatar"]);
+            }
+            else {
+                $users = User::all()->load(["role", "assignees", "avatar"]);
+            }
             return UserAugmentedResource::collection($users);
         } catch (Error $e) {
             return response()->json(["error" => $e->getMessage()], 500);
@@ -56,7 +65,7 @@ class UserController extends Controller
     {
         try {
             return new UserAugmentedResource(
-                $user->load(["role", "assignees"])
+                $user->load(["role", "assignees", "avatar"])
             );
         } catch (Error $e) {
             return response()->json(["error" => $e->getMessage()], 500);
