@@ -74,6 +74,8 @@ class ProjectController extends Controller
     public function destroy(DeleteProjectRequest $request, Project $project)
     {
         try {
+            $project->users()->detach();
+            $project->admins()->detach();
             $project->delete();
             return response()->json(null, 204);
         } catch (Error $e) {
