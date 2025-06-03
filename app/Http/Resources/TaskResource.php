@@ -21,6 +21,8 @@ class TaskResource extends JsonResource
             "remaining_time" => $this->remaining_time,
             "project_id" => $this->project_id,
             "status" => $this->status,
+            "domain_item_status_id" => $this->domain_item_status_id,
+            "domain_item_flag_id" => $this->domain_item_flag_id,
             "flag" => $this->flag,
             "user" => new UserPreviewResource($this->user),
         ];

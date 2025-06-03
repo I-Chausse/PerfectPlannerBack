@@ -18,9 +18,9 @@ class CheckUserAssignedToUser
     {
         $admin = Auth::user();
         $userId = $request->route("user_id");
-        $authorized = $admin->assignees()->where("users.id", $userId)->exists();
+        $authorized = $admin->assignees()->where("users.id", $userId)->exists() || $admin->id == $userId;
         if (!$authorized) {
-            return response()->json(["message" => "Unauthorized"], 403);
+            return response()->json(["message" => "User not assigned"], 403);
         }
         return $next($request);
     }

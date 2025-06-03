@@ -109,8 +109,8 @@ class UserController extends Controller
     {
         try {
             $user = Auth::user();
-            $user = User::where("id", $user->id)->get();
-            return UserResource::collection($user);
+            $user = User::where("id", $user->id)->with('assignees')->get();
+            return UserAugmentedResource::collection($user);
         } catch (Error $e) {
             return response()->json(["error" => $e->getMessage()], 500);
         }
