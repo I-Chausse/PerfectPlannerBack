@@ -97,10 +97,20 @@ class ProjectController extends Controller
     {
         try {
             $project = Project::find($projectId);
-            $tasks = $project
+            $task_name = request()->query('search');
+            if ($task_name) {
+                $tasks = $project
+                ->tasks()
+                ->where('name', 'LIKE', "%$task_name%")
+                ->with(["status", "flag", "user"])
+                ->get();
+            }
+            else {
+                $tasks = $project
                 ->tasks()
                 ->with(["status", "flag", "user"])
                 ->get();
+            }
             return TaskResource::collection($tasks);
         } catch (Error $e) {
             return response()->json($e, 500);
