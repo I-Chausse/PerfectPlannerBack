@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\DomainItemController;
 use App\Http\Controllers\InvitationTokenController;
 use App\Http\Controllers\ProjectController;
@@ -46,6 +47,11 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::get(
         uri: "/get-items/{domain}",
         action: [DomainItemController::class, "getByDomain"]
+    );
+
+     Route::get(
+        uri: "/get-avatars",
+        action: [AvatarController::class, "index"]
     );
 
     ## routes for roles
